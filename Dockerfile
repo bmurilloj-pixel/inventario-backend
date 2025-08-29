@@ -15,4 +15,4 @@ ENV PYTHONPATH=/code
 
 # 5) Arranque con Uvicorn (expande $PORT de Railway)
 #   (shell form -> expande variables)
-CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-10000}
