@@ -7,3 +7,4 @@ pydantic
 pydantic-settings
 databases
 python-multipart
+httpx==0.27.0
