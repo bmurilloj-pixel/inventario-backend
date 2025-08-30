@@ -4,7 +4,7 @@ FROM python:3.11-slim
 # Evita .pyc y fuerza stdout sin buffer
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PORT=10000
+    PORT=8080
 
 # Dependencias del sistema (psycopg2, etc.)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -22,8 +22,8 @@ RUN pip install --no-cache-dir -r /code/requirements.txt
 COPY ./app /code/app
 
 # Expón el puerto local (opcional, útil para claridad)
-EXPOSE 10000
+EXPOSE 8080
 
 # Ejecuta uvicorn apuntando a app.main:app
-# Usa el PORT de Railway si existe; si no, 10000
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-10000}"]
+# Usa el PORT de Railway si existe; si no, 8080
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
