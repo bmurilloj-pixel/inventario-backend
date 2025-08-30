@@ -1,8 +1,8 @@
-fastapi
-uvicorn
-sqlalchemy
-pydantic
-pydantic-settings
-python-multipart
-passlib[bcrypt]
-python-jose[cryptography]
+fastapi>=0.110
+uvicorn[standard]>=0.27
+sqlalchemy>=2.0
+psycopg2-binary>=2.9
+python-multipart>=0.0.9
+python-jose[cryptography]>=3.3
+passlib[bcrypt]>=1.7
+pydantic>=2.7
