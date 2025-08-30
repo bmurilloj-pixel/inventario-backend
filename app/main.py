@@ -74,3 +74,8 @@ async def seed_admin_user():
             print(f"🔹 Seed admin response: {resp.status_code} {resp.text[:200]}")
     except Exception as e:
         print(f"⚠️ Error sembrando usuario ADMIN: {e}")
+from app.core.database import Base, engine
+from app.models import user, inventory  # importa todos tus modelos aquí
+
+# Crear las tablas en la base de datos
+Base.metadata.create_all(bind=engine)
