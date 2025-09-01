@@ -1,21 +1,18 @@
 from fastapi import FastAPI
-from app.routers import auth, users, inventory
+from app.routers.users import router as users_router
+from app.routers.auth import auth as auth_router
 
-# Inicialización de la app con documentación habilitada
 app = FastAPI(
     title="Inventario Vidrio",
-    description="API para gestión de inventario de vidrio",
     version="1.0.0",
-    docs_url="/docs",      # Habilita Swagger UI
-    redoc_url="/redoc"     # Habilita ReDoc
+    description="API para gestión de inventario de vidrio"
 )
 
-# Rutas principales
-app.include_router(auth.router)
-app.include_router(users.router)
-app.include_router(inventory.router)
+# Incluir los routers
+app.include_router(users_router)
+app.include_router(auth_router)
 
-# Ruta raíz
+
 @app.get("/")
 def root():
-    return {"message": "Backend Inventario Vidrio funcionando 🚀"}
+    return {"message": "Inventario Vidrio API funcionando 🚀"}
