@@ -1,24 +1,14 @@
-# Framework principal
 fastapi==0.110.0
-
-# Servidor ASGI para producción
 uvicorn[standard]==0.29.0
 
-# Base de datos
-sqlalchemy==2.0.29
+SQLAlchemy==2.0.29
+alembic==1.13.1
 psycopg2-binary==2.9.9
 
-# Migraciones (opcional pero recomendado)
-alembic==1.13.1
-
-# Seguridad y autenticación
+python-dotenv==1.0.1
 python-jose==3.3.0
 passlib[bcrypt]==1.7.4
 
-# Manejo de variables de entorno
-python-dotenv==1.0.1
-
-# Validaciones extra
 pydantic==2.6.3
 pydantic-settings==2.2.1
-python-multipart>=0.0.7
+python-multipart==0.0.7
