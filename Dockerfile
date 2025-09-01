@@ -3,27 +3,32 @@ FROM python:3.11-slim
 
 # Evita .pyc y fuerza stdout sin buffer
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PORT=8080
+    PYTHONUNBUFFERED=1
 
-# Dependencias del sistema (psycopg2, etc.)
+# Paquetes del sistema (mínimos)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential gcc libpq-dev && \
-    rm -rf /var/lib/apt/lists/*
+    build-essential gcc curl \
+ && rm -rf /var/lib/apt/lists/*
 
-# Workdir
-WORKDIR /code
+# Carpeta de trabajo
+WORKDIR /app
 
 # Requisitos primero (mejor caché)
-COPY requirements.txt /code/requirements.txt
-RUN pip install --no-cache-dir -r /code/requirements.txt
+COPY requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia del código
-COPY ./app /code/app
+# Copiamos el código y archivos de alembic
+COPY ./app ./app
+COPY ./alembic ./alembic
+COPY ./alembic.ini ./alembic.ini
 
-# Expón el puerto local (opcional, útil para claridad)
-EXPOSE 8080
+# Variables útiles (puedes cambiarlas si tu módulo cambia)
+ENV MODULE_NAME=app.main
+ENV APP_MODULE=${MODULE_NAME}:app
 
-# Ejecuta uvicorn apuntando a app.main:app
-# Usa el PORT de Railway si existe; si no, 8080
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
+# Expón el puerto localmente (Railway inyecta $PORT en runtime)
+EXPOSE 8000
+
+# Ejecuta migraciones y arranca uvicorn
+# - Si no hay migraciones, imprime mensaje y continúa.
+CMD ["sh", "-c", "alembic upgrade head || echo 'No migrations to apply'; uvicorn ${APP_MODULE} --host 0.0.0.0 --port ${PORT:-8000}"]
